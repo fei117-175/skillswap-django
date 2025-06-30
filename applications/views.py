@@ -2,8 +2,9 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_GET
 from .models import ExchangeRequest
 from rest_framework.decorators import api_view, authentication_classes, permission_classes, parser_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.decorators import api_view, authentication_classes, permission_classes, parser_classes
 from django.db.models import Q
 from datetime import datetime, timedelta
 from django.utils import timezone
@@ -50,7 +51,8 @@ def swap_apl(request):
 
 
 # 获取所有申请信息
-@require_GET
+@api_view(['GET'])
+@permission_classes([AllowAny])
 def get_all_exchanges(request):
     try:
         # 获取所有交换申请，按创建时间倒序排列
